@@ -1,4 +1,3 @@
-- name: Install Nginx
-  ansible.builtin.yum:
-    name: nginx
-    state: installed
+- name: test
+  debug:
+    msg: hello
