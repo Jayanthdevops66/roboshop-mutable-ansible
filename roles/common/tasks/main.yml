@@ -1,2 +1,7 @@
 - name: Setup Hostname
   ansible.builtin.shell: set-hostname {{COMPONENT}}
+
+- name: Install Galaxy general collection
+  ansible.builtin.shell: ansible-galaxy collection install community.general
+  when: APP_TYPE == "nodejs"
+  become_user: roboshop
