@@ -27,9 +27,9 @@
     src: /tmp/catalogue-main/
     dest: /home/roboshop/catalogue
     remote_src: yes
-    become_user: roboshop
+  become_user: roboshop
 
 - name: Install Nodejs dependencies
   community.general.npm:
     path: home/roboshop/catalogue
-    become_user: roboshop
+  become_user: roboshop
