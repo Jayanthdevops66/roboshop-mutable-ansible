@@ -1,0 +1,39 @@
+- name: Copy MySQL repo file
+  ansible.builtin.copy:
+    src: mysql.repo
+    dest: /etc/yum.repos.d/mysql.repo
+
+- name: Install MySQL server
+  ansible.builtin.yum:
+    name:
+     - mysql-community-server
+     - MySQL-python
+    state: installed
+
+- name: Start MySQL Service
+  ansible.builtin.systemd:
+    name: mysqld
+    state: restarted
+    enabled: yes
+
+- name: Handle the error
+  block:
+    - name: Get MySQL version to check the DB Connection
+      mysql_info:
+        login_user: root
+        login_password: "{{MYSQL_PASSWORD}}"
+        filter: version
+  rescue:
+    - name: Load MYSQL Log file
+      ansible.builtin.slurp:
+        src: /var/log/mysqld.log
+      register: mysql_log
+
+    - name: Declare Facts
+      ansible.builtin.set_facts:
+        DEFAULT_PASS: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*') | join(' ') |split(' ') | last }}"
+
+    - name: Change MySQL
+      ansible.builtin.shell:  echo "Alter USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASSWORD}}';" | mysql --connect-expired-password -uroot -p"{{DEFAULT_PASSWORD}}"
+
+
