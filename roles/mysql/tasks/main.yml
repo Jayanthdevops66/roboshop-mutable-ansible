@@ -30,10 +30,10 @@
       register: mysql_log
 
     - name: Declare Facts
-      ansible.builtin.set_facts:
+      ansible.builtin.set_fact:
         DEFAULT_PASS: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*') | join(' ') |split(' ') | last }}"
 
     - name: Change MySQL
-      ansible.builtin.shell:  echo "Alter USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASSWORD}}';" | mysql --connect-expired-password -uroot -p"{{DEFAULT_PASSWORD}}"
+      ansible.builtin.shell:  echo "Alter USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASSWORD}}';" | mysql --connect-expired-password -uroot -p"{{DEFAULT_PASS}}"
 
 
