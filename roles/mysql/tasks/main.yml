@@ -3,11 +3,11 @@
     src: mysql.repo
     dest: /etc/yum.repos.d/mysql.repo
 
-- name: Install MySQL server
+- name: Install MySQL Server
   ansible.builtin.yum:
     name:
-     - mysql-community-server
-     - MySQL-python
+      - mysql-community-server
+      - MySQL-python
     state: installed
 
 - name: Start MySQL Service
@@ -24,7 +24,7 @@
         login_password: "{{MYSQL_PASSWORD}}"
         filter: version
   rescue:
-    - name: Load MYSQL Log file
+    - name: Load MYSQL Log File
       ansible.builtin.slurp:
         src: /var/log/mysqld.log
       register: mysql_log
@@ -34,13 +34,13 @@
         DEFAULT_PASS: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*') | join(' ') |split(' ') | last }}"
 
     - name: Change MySQL
-      ansible.builtin.shell:  echo "Alter USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASSWORD}}';" | mysql --connect-expired-password -uroot -p"{{DEFAULT_PASS}}"
+      ansible.builtin.shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASSWORD}}';" | mysql --connect-expired-password -uroot -p"{{DEFAULT_PASS}}"
 
 - name: Check Validate plugin exists
   ansible.builtin.shell: echo "uninstall plugin validate_password;" | mysql -uroot -p{{MYSQL_PASSWORD}}
   ignore_errors: yes
 
-- name: Download MySQL Schema Files
+- name: Download MySQL Schema files
   ansible.builtin.unarchive:
     src: "https://github.com/roboshop-devops-project/mysql/archive/main.zip"
     dest: /tmp
@@ -53,6 +53,7 @@
     target: /tmp/mysql-main/shipping.sql
     login_user: root
     login_password: "{{MYSQL_PASSWORD}}"
+
 
 
 
