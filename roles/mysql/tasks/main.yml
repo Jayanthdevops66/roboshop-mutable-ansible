@@ -16,7 +16,7 @@
     state: restarted
     enabled: yes
 
-- name: Handle the error
+- name: Check Root Default Password
   block:
     - name: Get MySQL version to check the DB Connection
       mysql_info:
