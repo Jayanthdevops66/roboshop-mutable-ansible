@@ -47,7 +47,7 @@
     remote_src: yes
 
 - name: Load Schema
-  communtiy.mysql.mysql_db:
+  community.mysql.mysql_db:
     state: import
     name: all
     target: /tmp/mysql-main/shipping.sql
