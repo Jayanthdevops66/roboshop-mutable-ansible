@@ -1,2 +1,2 @@
-COMPONENT: redis
+COMPONENT: rabbitmq
 APP_TYPE: database
