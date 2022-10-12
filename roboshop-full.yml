@@ -44,8 +44,7 @@
   roles:
     - payment
 - name: Setup Roboshop
-  hosts: CART
+  hosts: cart
   become: yes
   roles:
     - cart
-
