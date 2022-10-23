@@ -1,0 +1,4 @@
+- name: Copy Filebeat YUM Repo
+  ansible.builtin.template:
+    src: filebeat.repo
+    dest: /etc/yum.repos.d/filebeat.repo

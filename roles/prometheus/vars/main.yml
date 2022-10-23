@@ -1,0 +1,1 @@
+COMPONENTS: [ user, cart, catalogue, shipping, payment, nginx ]
