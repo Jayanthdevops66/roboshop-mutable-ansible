@@ -34,4 +34,4 @@
 - name: Include Filebeat
   ansible.builtin.include_role:
     name: elk
-    tasks_from: filebeathhh
+    tasks_from: filebeat
